@@ -2,14 +2,29 @@ package com.spring.core.order;
 
 import com.spring.core.discount.DiscountPolicy;
 import com.spring.core.discount.FixDiscountPolicy;
+import com.spring.core.discount.RateDiscountPolicy;
 import com.spring.core.member.Member;
 import com.spring.core.member.MemberRepository;
 import com.spring.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService{
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+//    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
+//    OCP, DIP 위반!!!!!!!!!!!!!!!
+//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+//  ------------------------------------------------------------------------------------------------------
+
+
+    // 여기에서 직접 구현체를 생성하지 않고 Config에게 위임한다.
+    // 아래와 같이 변경함으로써 OrderServiceImpl는 DIP를 철저히 지키게 된다. (구현체, 구체화에 대해 전혀 모르고 있다)
+    // 생성자 주입 방식
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
