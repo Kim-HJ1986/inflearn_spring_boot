@@ -1,5 +1,9 @@
 package com.spring.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService{
 
 //     다형성에 의해 구현체는 MemoryMemberRepository가 되며,
@@ -12,6 +16,7 @@ public class MemberServiceImpl implements MemberService{
     // 생성자 주입 방식
     private final MemberRepository memberRepository;
 
+    @Autowired // 마치 ac.getBean(MemberRepository.class)
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
@@ -24,5 +29,10 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
+    }
+
+    //테스트 용도
+    public MemberRepository getMemberRepository(){
+        return memberRepository;
     }
 }
