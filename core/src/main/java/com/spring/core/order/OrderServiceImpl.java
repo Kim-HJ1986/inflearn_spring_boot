@@ -1,5 +1,6 @@
 package com.spring.core.order;
 
+import com.spring.core.annotation.MainDiscountPolicy;
 import com.spring.core.discount.DiscountPolicy;
 import com.spring.core.member.Member;
 import com.spring.core.member.MemberRepository;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+//@RequiredArgsConstructor 생성자 자동 생성!
 public class OrderServiceImpl implements OrderService{
 
 //    private final DiscountPolicy discountPolicy = new RateDiscountPolicy();
@@ -21,11 +23,14 @@ public class OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
 
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+
+    @Autowired  // @RequiredArgsConstructor로 대체 가능
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
     }
+
+
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

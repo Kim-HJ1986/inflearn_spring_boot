@@ -1,9 +1,14 @@
 package com.spring.core.discount;
 
+import com.spring.core.annotation.MainDiscountPolicy;
 import com.spring.core.member.Grade;
 import com.spring.core.member.Member;
 import org.springframework.stereotype.Component;
 
+
+//@Primary
+//@Qualifier("mainDiscountPolicy")
+@MainDiscountPolicy // 직접 만들어준 어노테이션
 @Component
 public class RateDiscountPolicy implements DiscountPolicy{
 
@@ -17,3 +22,4 @@ public class RateDiscountPolicy implements DiscountPolicy{
         }
     }
 }
+
